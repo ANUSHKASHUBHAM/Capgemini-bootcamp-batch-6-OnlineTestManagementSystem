@@ -1,76 +1,120 @@
 package com.capgemini.onlinetestmanagementsystem.service;
 
-
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.capgemini.onlinetestmanagementsystem.dao.ITestDao;
-import com.capgemini.onlinetestmanagementsystem.entity.TestManagement;
+import com.capgemini.onlinetestmanagementsystem.dao.IUserDao;
+import com.capgemini.onlinetestmanagementsystem.entity.TestEntity;
+import com.capgemini.onlinetestmanagementsystem.entity.User;
 import com.capgemini.onlinetestmanagementsystem.exception.TestNotFoundException;
+
 
 @Service
 @Transactional
-public class TestServiceImpl implements ITestService
-{
-
+public class TestServiceImpl implements ITestService {
+   
+   @Autowired
+   private IUserDao userDao;
+	
+   @Autowired
 	private ITestDao testDao;
-
-	public ITestDao getTestDao() 
-	{
-		return testDao;
-	}
-
-	@Autowired
-	public void setTestDao(ITestDao testDao)
-	{
-		this.testDao = testDao;
-	}
+	
+	
+	/*
+	 ***************************************************
+	 *This method is used to add new test
+	 *************************************************** 
+	 */
+	
 	@Override
-	public TestManagement addTest(TestManagement test)
-	{
-		test = testDao.save(test);
-		return test;
+	public TestEntity addTest(TestEntity test) 
+	{	
+			test = testDao.save(test);
+			return test;
 	}
+	
+	/*
+	 ***************************************************
+	 *This method is used to update existing test
+	 *************************************************** 
+	 */
+	
 
 	@Override
-	public TestManagement updateTest(TestManagement test) {
-		boolean exists = testDao.existsById(test.getTestId());
+	public TestEntity updateTest(BigInteger testId, TestEntity test) {
+		boolean exists = testDao.existsById(testId);
 		if (exists) {
 			test = testDao.save(test);
 			return test;
 		}
-		throw new TestNotFoundException("Test not found for id="+test.getTestId());
+		throw new TestNotFoundException("Test not found for id="+testId);
 	}
+	
+	/*
+	 ***************************************************
+	 *This method is used to delete existing test
+	 *************************************************** 
+	 */
 
 	@Override
-	public TestManagement deleteTest(Integer testId) 
-	{
-		TestManagement test = findById(testId);
+	public TestEntity deleteTest(BigInteger testId) {
+		TestEntity test = findById(testId);
 		testDao.delete(test);
 		return test;
 	}
+	
+	/*
+	 ***************************************************
+	 *This method is used to assign test to a user
+	 *************************************************** 
+	 */
 
 	@Override
-	public List<TestManagement> fetchAll()
-	{
-		List<TestManagement> tests = testDao.findAll();
+	public boolean assignTest(Long userId, BigInteger testId) {
+		boolean testExists = testDao.existsById(testId);
+		if (testExists) 
+		{
+				TestEntity test = findById(testId);
+				Optional<User> optional = userDao.findById(userId);
+				if(optional.isPresent())
+				{
+					User user = optional.get();
+					user.setUserTest(test);
+					User myUser = userDao.save(user);
+				}
+				
+				
+				return true;
+		}
+		else
+		{
+			throw new TestNotFoundException("Test not found for id="+testId);
+		}
+	}
+
+
+
+	@Override
+	public TestEntity findById(BigInteger testId) {
+		 Optional<TestEntity>optional=testDao.findById(testId);
+	     if(optional.isPresent()){
+	         TestEntity test=optional.get();
+	         return test;
+	     }
+	     throw new TestNotFoundException("Test not found for id="+testId);
+	    }
+	@Override
+	public List<TestEntity> fetchAll() {
+		List<TestEntity> tests = testDao.findAll();
 		return tests;
 	}
-
-	@Override
-	public TestManagement findById(Integer testId)
-	{
-		Optional<TestManagement> optional = testDao.findById(testId);
-		if (optional.isPresent())
-		{
-			TestManagement test = optional.get();
-			return test;
-		}
-		throw new TestNotFoundException("Test not found for id=" + testId);
 	}
- 
-}
+
+

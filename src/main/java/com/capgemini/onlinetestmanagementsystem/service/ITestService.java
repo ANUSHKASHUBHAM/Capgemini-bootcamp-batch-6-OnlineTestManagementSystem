@@ -1,21 +1,25 @@
 package com.capgemini.onlinetestmanagementsystem.service;
 
-
-
-import com.capgemini.onlinetestmanagementsystem.entity.TestManagement;
-
+import java.math.BigInteger;
 import java.util.List;
 
+import com.capgemini.onlinetestmanagementsystem.entity.TestEntity;
 
-public interface ITestService
-{
-	TestManagement addTest(TestManagement test);
 
-	TestManagement updateTest( TestManagement test);
 
-	TestManagement deleteTest(Integer testId);
+
+
+public interface ITestService {
 	
-	List<TestManagement> fetchAll();
+	TestEntity addTest(TestEntity test);
 
-	TestManagement findById(Integer testId);
+	TestEntity updateTest(BigInteger testId, TestEntity test);
+
+	TestEntity deleteTest(BigInteger testId);
+
+	boolean assignTest(Long userId, BigInteger testId);
+
+	List<TestEntity> fetchAll();
+
+	TestEntity findById(BigInteger testId);
 }

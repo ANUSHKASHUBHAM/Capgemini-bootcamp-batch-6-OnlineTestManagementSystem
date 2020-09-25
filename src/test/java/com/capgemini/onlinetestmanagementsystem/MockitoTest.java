@@ -1,5 +1,7 @@
 package com.capgemini.onlinetestmanagementsystem;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -10,7 +12,7 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.capgemini.onlinetestmanagementsystem.dao.ITestDao;
-import com.capgemini.onlinetestmanagementsystem.entity.TestManagement;
+import com.capgemini.onlinetestmanagementsystem.entity.TestEntity;
 import com.capgemini.onlinetestmanagementsystem.service.TestServiceImpl;
 
 @SpringBootTest
@@ -30,11 +32,11 @@ LocalDateTime endDateTime = LocalDateTime.of(2020, 2, 13, 14, 00);
     public void testaddTest() 
 	{
 	    
-		TestManagement testManagement= new TestManagement();
-		testManagement.setTestId(10);
+		TestEntity testManagement= new TestEntity();
+		testManagement.setTestId(BigInteger.valueOf(10));
 		testManagement.setTestTitle("Java");
-		testManagement.setTestMarksScored(70);
-		testManagement.setTestTotalMarks(100);
+		testManagement.setTestMarksScored(BigDecimal.valueOf(70.5));
+		testManagement.setTestTotalMarks(BigDecimal.valueOf(80.0));
 		testManagement.setTestDuration(time);
 		testManagement.setStartTime(startDateTime);
 		testManagement.setEndTime(endDateTime);
@@ -45,5 +47,7 @@ LocalDateTime endDateTime = LocalDateTime.of(2020, 2, 13, 14, 00);
 	    
 	  
 	}
+		
 
 }
+

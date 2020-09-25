@@ -1,12 +1,15 @@
 package com.capgemini.onlinetestmanagementsystem.dao;
 
-
+import java.math.BigInteger;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.capgemini.onlinetestmanagementsystem.entity.TestEntity;
 
-import com.capgemini.onlinetestmanagementsystem.entity.TestManagement;
 
-public interface ITestDao  extends JpaRepository<TestManagement,Integer> {
+
+
+
+public interface ITestDao extends JpaRepository<TestEntity,BigInteger>{
 
 }
