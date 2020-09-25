@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.capgemini.onlinetestmanagement.dto.UserDetails;
-import com.capgemini.onlinetestmanagement.dto.UserDto;
+import com.capgemini.onlinetestmanagementsystem.dto.UserDetails;
+import com.capgemini.onlinetestmanagementsystem.dto.UserDto;
 import com.capgemini.onlinetestmanagementsystem.entity.User;
 import com.capgemini.onlinetestmanagementsystem.service.IUserService;
 

@@ -1,4 +1,4 @@
-package com.capgemini.onlinetestmanagement.dto;
+package com.capgemini.onlinetestmanagementsystem.dto;
 
 import com.capgemini.onlinetestmanagementsystem.entity.TestEntity;
 

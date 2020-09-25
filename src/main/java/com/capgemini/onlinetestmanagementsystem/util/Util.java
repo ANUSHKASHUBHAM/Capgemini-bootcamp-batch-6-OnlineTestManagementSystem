@@ -1,11 +1,11 @@
-package com.capgemini.onlinetestmanagement.util;
+package com.capgemini.onlinetestmanagementsystem.util;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.capgemini.onlinetestmanagement.dto.TestDetails;
-import com.capgemini.onlinetestmanagement.dto.TestDto;
+import com.capgemini.onlinetestmanagementsystem.dto.TestDetails;
+import com.capgemini.onlinetestmanagementsystem.dto.TestDto;
 import com.capgemini.onlinetestmanagementsystem.entity.TestEntity;
 
 

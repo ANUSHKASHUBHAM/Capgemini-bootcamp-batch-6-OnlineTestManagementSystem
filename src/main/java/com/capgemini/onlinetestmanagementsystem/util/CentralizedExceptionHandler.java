@@ -1,4 +1,4 @@
-package com.capgemini.onlinetestmanagement.util;
+package com.capgemini.onlinetestmanagementsystem.util;
 
 
 import javax.validation.ConstraintViolationException;

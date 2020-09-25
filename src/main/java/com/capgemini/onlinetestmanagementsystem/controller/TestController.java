@@ -26,11 +26,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.capgemini.onlinetestmanagement.dto.TestDetails;
-import com.capgemini.onlinetestmanagement.dto.TestDto;
-import com.capgemini.onlinetestmanagement.util.Util;
+import com.capgemini.onlinetestmanagementsystem.dto.TestDetails;
+import com.capgemini.onlinetestmanagementsystem.dto.TestDto;
 import com.capgemini.onlinetestmanagementsystem.entity.TestEntity;
 import com.capgemini.onlinetestmanagementsystem.service.ITestService;
+import com.capgemini.onlinetestmanagementsystem.util.Util;
 
 
 
