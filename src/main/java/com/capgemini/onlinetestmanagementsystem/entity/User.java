@@ -19,8 +19,8 @@ public class User {
 	@NotEmpty(message = "Name is required")
 	@Size(min=5,max=20,message="User name should be minimum 5 and maximum 20 characters long")
 	private String UserName;
-	@OneToOne(targetEntity=Test.class)
-	private Test userTest;
+	@OneToOne(targetEntity=TestManagement.class)
+	private TestManagement userTest;
 	private boolean isAdmin;
 	@NotEmpty(message = "Password is required")
 	@Size(min=8,message="Password should be minimum 8 characters long")
@@ -37,10 +37,10 @@ public class User {
 	public void setUserName(String userName) {
 		UserName = userName;
 	}
-	public Test getUserTest() {
+	public TestManagement getUserTest() {
 		return userTest;
 	}
-	public void setUserTest(Test userTest) {
+	public void setUserTest(TestManagement userTest) {
 		this.userTest = userTest;
 	}
 	public boolean isAdmin() {
