@@ -1,10 +1,8 @@
 package com.capgemini.onlinetestmanagementsystem.entity;
 
-import java.math.*;
+
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,22 +10,47 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 @Entity
 @Table(name="Test")
-public class Test {
+public class TestManagement {
+	
+
+	
 	@Id
 	@GeneratedValue
-	private BigInteger testId;
+	private Integer testId;
 	private String testTitle;
 	private LocalTime testDuration;
-	private BigDecimal testTotalMarks;
-	private BigDecimal testMarksScored;
+	private double testTotalMarks;
+	private double testMarksScored;
 	private LocalDateTime startTime;
 	private LocalDateTime endTime;
+	
+	public TestManagement() {
+		super();
+		
+	}
 
-	public BigInteger getTestId() {
+	
+	
+	public TestManagement(Integer testId, String testTitle, LocalTime testDuration, double testTotalMarks,
+			double testMarksScored, LocalDateTime startTime, LocalDateTime endTime)
+	{
+		super();
+		this.testId = testId;
+		this.testTitle = testTitle;
+		this.testDuration = testDuration;
+		this.testTotalMarks = testTotalMarks;
+		this.testMarksScored = testMarksScored;
+		this.startTime = startTime;
+		this.endTime = endTime;
+	}
+	
+	
+
+	public Integer getTestId() {
 		return testId;
 	}
 
-	public void setTestId(BigInteger testId) {
+	public void setTestId(Integer testId) {
 		this.testId = testId;
 	}
 
@@ -47,19 +70,19 @@ public class Test {
 		this.testDuration = testDuration;
 	}
 
-	public BigDecimal getTestTotalMarks() {
+	public double getTestTotalMarks() {
 		return testTotalMarks;
 	}
 
-	public void setTestTotalMarks(BigDecimal testTotalMarks) {
+	public void setTestTotalMarks(double testTotalMarks) {
 		this.testTotalMarks = testTotalMarks;
 	}
 
-	public BigDecimal getTestMarksScored() {
+	public double getTestMarksScored() {
 		return testMarksScored;
 	}
 
-	public void setTestMarksScored(BigDecimal testMarksScored) {
+	public void setTestMarksScored(double testMarksScored) {
 		this.testMarksScored = testMarksScored;
 	}
 
