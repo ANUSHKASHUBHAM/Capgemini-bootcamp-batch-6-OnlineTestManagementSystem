@@ -10,33 +10,47 @@ import javax.persistence.Table;
 public class Admin {
 	@Id
 	@GeneratedValue
-	private int id;
-	private String password;
+	private String adminId;
+	private String adminName;
+	private String adminPassword;
 	public Admin() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-	public Admin(int id, String password) {
+
+
+	
+	
+	public String getAdminId() {
+		return adminId;
+	}
+	public void setAdminId(String adminId) {
+		this.adminId = adminId;
+	}
+	public String getAdminName() {
+		return adminName;
+	}
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
+	}
+	public String getAdminPassword() {
+		return adminPassword;
+	}
+	public void setAdminPassword(String adminPassword) {
+		this.adminPassword = adminPassword;
+	}
+	public Admin(String adminId, String adminName, String adminPassword) {
 		super();
-		this.id = id;
-		this.password = password;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	@Override
-	public String toString() {
-		return "Admin [id=" + id + ", password=" + password + "]";
+		this.adminId = adminId;
+		this.adminName = adminName;
+		this.adminPassword = adminPassword;
 	}
 	
+	
+	@Override
+	public String toString() {
+		return "Admin [adminId=" + adminId + ", adminName=" + adminName + ", adminPassword=" + adminPassword + "]";
+	}
+	
+
 
 }
