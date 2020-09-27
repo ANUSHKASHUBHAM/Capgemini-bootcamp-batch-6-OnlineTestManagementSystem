@@ -10,9 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.capgemini.onlinetestmanagementsystem.dao.ITestDao;
-import com.capgemini.onlinetestmanagementsystem.dao.IUserDao;
 import com.capgemini.onlinetestmanagementsystem.entity.TestEntity;
-import com.capgemini.onlinetestmanagementsystem.entity.User;
+
 import com.capgemini.onlinetestmanagementsystem.exception.TestNotFoundException;
 
 
@@ -20,9 +19,6 @@ import com.capgemini.onlinetestmanagementsystem.exception.TestNotFoundException;
 @Transactional
 public class TestServiceImpl implements ITestService {
    
-   @Autowired
-   private IUserDao userDao;
-	
    @Autowired
 	private ITestDao testDao;
 	
@@ -48,9 +44,11 @@ public class TestServiceImpl implements ITestService {
 	
 
 	@Override
-	public TestEntity updateTest(BigInteger testId, TestEntity test) {
+	public TestEntity updateTest(BigInteger testId, TestEntity test) 
+	{
 		boolean exists = testDao.existsById(testId);
-		if (exists) {
+		if (exists)
+		{
 			test = testDao.save(test);
 			return test;
 		}
@@ -64,54 +62,42 @@ public class TestServiceImpl implements ITestService {
 	 */
 
 	@Override
-	public TestEntity deleteTest(BigInteger testId) {
+	public TestEntity deleteTest(BigInteger testId) 
+	{
 		TestEntity test = findById(testId);
 		testDao.delete(test);
 		return test;
 	}
 	
+	
 	/*
 	 ***************************************************
-	 *This method is used to assign test to a user
+	 *This method is used to find test byId
 	 *************************************************** 
 	 */
 
-	@Override
-	public boolean assignTest(Long userId, BigInteger testId) {
-		boolean testExists = testDao.existsById(testId);
-		if (testExists) 
-		{
-				TestEntity test = findById(testId);
-				Optional<User> optional = userDao.findById(userId);
-				if(optional.isPresent())
-				{
-					User user = optional.get();
-					user.setUserTest(test);
-					User myUser = userDao.save(user);
-				}
-				
-				
-				return true;
-		}
-		else
-		{
-			throw new TestNotFoundException("Test not found for id="+testId);
-		}
-	}
-
 
 
 	@Override
-	public TestEntity findById(BigInteger testId) {
+	public TestEntity findById(BigInteger testId)
+	{
 		 Optional<TestEntity>optional=testDao.findById(testId);
-	     if(optional.isPresent()){
+	     if(optional.isPresent())
+	     {
 	         TestEntity test=optional.get();
 	         return test;
 	     }
 	     throw new TestNotFoundException("Test not found for id="+testId);
 	    }
+	
+	/*
+	 ***************************************************
+	 *This method is used to fetch All test
+	 *************************************************** 
+	 */
 	@Override
-	public List<TestEntity> fetchAll() {
+	public List<TestEntity> fetchAll() 
+	{
 		List<TestEntity> tests = testDao.findAll();
 		return tests;
 	}

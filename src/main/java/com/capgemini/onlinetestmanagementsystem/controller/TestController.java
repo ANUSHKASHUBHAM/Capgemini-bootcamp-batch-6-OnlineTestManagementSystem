@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.capgemini.onlinetestmanagementsystem.dto.TestDetails;
 import com.capgemini.onlinetestmanagementsystem.dto.TestDto;
 import com.capgemini.onlinetestmanagementsystem.entity.TestEntity;
+import com.capgemini.onlinetestmanagementsystem.entity.User;
 import com.capgemini.onlinetestmanagementsystem.service.ITestService;
 import com.capgemini.onlinetestmanagementsystem.util.Util;
 
@@ -36,13 +37,21 @@ import com.capgemini.onlinetestmanagementsystem.util.Util;
 
 @RestController
 @RequestMapping("/tests")
-public class TestController {
+public class TestController
+{
 	
-	  private static final Logger Log= LoggerFactory.getLogger(TestController.class);
+	 private static final Logger Log= LoggerFactory.getLogger(TestController.class);
+	  
+	  
 	 @Autowired
 	 private ITestService service;
+	 
+	 
+	 //Find Test By Id Test
+	 
 	 @GetMapping("/get/{id}")
-	  public ResponseEntity<TestDetails>getTest(@PathVariable("id") BigInteger id){
+	  public ResponseEntity<TestDetails>findTestById(@PathVariable("id") BigInteger id)
+	  {
 		TestEntity test = service.findById(id);
 		TestDetails details = Util.convertToTestDetails(test);
 		Log.info("Test Fetched");
@@ -52,60 +61,60 @@ public class TestController {
 		
 	  }
 	 
-	
-	
-
+	 //Fetch All Test
+	 
 	 @GetMapping
 	 @ResponseStatus(HttpStatus.OK)
-	   public List<TestDto>fetchAll(){
-	       List<TestEntity> tests=service.fetchAll();
-	       	List<TestDto> allTests=Util.tests(tests);
-	       	Log.info("All Tests Fetched");
-	       	System.out.println(allTests);
-	       
-	       return allTests;
+	  public List<TestDto>fetchAll()
+	  {
+	    List<TestEntity> tests=service.fetchAll();
+	    List<TestDto> allTests=Util.tests(tests);
+	    Log.info("All Tests Fetched");
+	    System.out.println(allTests);
+	    return allTests;
 	   }
 	 
 	 
-	
+	//Add Test
+	 
 	 @PostMapping("/add")
-	    public ResponseEntity<TestEntity>createTest(@RequestBody @Valid TestDto testDto){
-	       TestEntity test = Util.convertFromDto(testDto);
-	       test=service.addTest(test);
-	       Log.info("Test created ");
-	        ResponseEntity<TestEntity>response=new ResponseEntity<>(test, HttpStatus.OK);
-	        System.out.println(testDto);
-	        return response;
+	  public ResponseEntity<TestEntity>addTest(@RequestBody @Valid TestDto testDto)
+	  {
+	    TestEntity test = Util.convertFromDto(testDto);
+	    test=service.addTest(test);
+	    Log.info("Test created ");
+	    ResponseEntity<TestEntity>response=new ResponseEntity<>(test, HttpStatus.OK);
+	    System.out.println(testDto);
+	    return response;
 	      
 	   }
 	 
-	 @GetMapping("/delete/{id}")
-		public ResponseEntity<Boolean> deleteTest(@PathVariable("id") BigInteger testId) {
-			TestEntity result = service.deleteTest(testId);
-			  Log.info("Test removed");
-			ResponseEntity<Boolean> response = new ResponseEntity<>(true, HttpStatus.OK);
-			return response;
-		}
+	 //Delete Test
+	 
+	 @GetMapping("/remove/{id}")
+	  public ResponseEntity<Boolean> deleteTest(@PathVariable("id") BigInteger testId)
+	  {
+		TestEntity result = service.deleteTest(testId);
+	    Log.info("Test removed");
+	    ResponseEntity<Boolean> response = new ResponseEntity<>(true, HttpStatus.OK);
+		return response;
+	   }
+	
+	 
+	 //Update Test
 
 	 @PutMapping("/update/{id}")
-		public ResponseEntity<TestEntity> updateTest(@PathVariable("id") BigInteger testId, @RequestBody @Valid TestDto testDto) {
-			TestEntity test = Util.convertFromDto(testDto);
-			test.setTestId(testId);
-			test = service.updateTest(testId, test);
-			  Log.info("Test updated ");
-			ResponseEntity<TestEntity> response = new ResponseEntity<>(test, HttpStatus.OK);
-			return response;
+	  public ResponseEntity<TestEntity> updateTest(@PathVariable("id") BigInteger testId, @RequestBody @Valid TestDto testDto) 
+	  {
+	    TestEntity test = Util.convertFromDto(testDto);
+		test.setTestId(testId);
+		test = service.updateTest(testId, test);
+		Log.info("Test updated ");
+		ResponseEntity<TestEntity> response = new ResponseEntity<>(test, HttpStatus.OK);
+		return response;
 		}
 	 
-	 @GetMapping("/assign/{testId}/{userId}")
-		public ResponseEntity<Boolean> assignTest(@PathVariable("testId") BigInteger testId,
-				@PathVariable("userId") Long userId) {
-			Boolean isAssign = service.assignTest(userId, testId);
-			  Log.info("Test assigned ");
-			ResponseEntity<Boolean> response = new ResponseEntity<>(isAssign, HttpStatus.OK);
-			return response;
-		}
-
+	
 		
 		
 		

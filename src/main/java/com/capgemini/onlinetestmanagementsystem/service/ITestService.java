@@ -17,8 +17,6 @@ public interface ITestService {
 
 	TestEntity deleteTest(BigInteger testId);
 
-	boolean assignTest(Long userId, BigInteger testId);
-
 	List<TestEntity> fetchAll();
 
 	TestEntity findById(BigInteger testId);
