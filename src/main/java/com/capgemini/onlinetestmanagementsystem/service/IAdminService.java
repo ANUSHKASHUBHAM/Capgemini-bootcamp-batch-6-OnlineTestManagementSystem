@@ -14,20 +14,17 @@ public interface IAdminService {
 	Admin getAdmin(String adminId);
 	boolean deleteAdmin(String adminId);
 
-	public List<Question> getQuestion();
+	public TestEntity addTest(TestEntity test);
+	public TestEntity updateTest(BigInteger testId, TestEntity test);
+	public TestEntity deleteTest(BigInteger testId);
+	public List<TestEntity> fetchAll();
+	public TestEntity findById(BigInteger testId);
+	public Question createQuestion(Question question);
+    public List<Question> getAllQuestion();
+    public Optional<Question> deleteQuestion(int Sno);
 	public Question save(Question question);
-	public Optional<Question> getQuestionBySno(int sno);
-	public Optional<Question> deleteQuestion(int sno) throws ResourceNotFoundException;
-	TestEntity addTest(TestEntity test);
-
-	TestEntity updateTest(BigInteger testId, TestEntity test);
-
-	TestEntity deleteTest(BigInteger testId);
-
-	List<TestEntity> fetchAll();
-
-	TestEntity findById(BigInteger testId);
-
+	public Optional<Question> getQuestionBySno(int Sno);
+	
 	
 	
 	
