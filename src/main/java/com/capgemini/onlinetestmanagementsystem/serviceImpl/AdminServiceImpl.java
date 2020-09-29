@@ -203,8 +203,11 @@ public class AdminServiceImpl implements IAdminService{
 			public Question getQuestionBySno(int Sno)
 			{
 			 Optional < Question > questionDb = this.questionDao.findById(Sno);
-
+			 if (questionDb.isPresent())
+				{
 	         return questionDb.get();
+				}
+			 throw new ResourceNotFoundException("Record not found with id : " +Sno );
 	        }
 			@Override
 			public Question save(Question question)
@@ -214,10 +217,11 @@ public class AdminServiceImpl implements IAdminService{
 
 
 			@Override
-			public Question updateQuestion(Question question)
+			public Question updateQuestion(Question question) 
 			{
 				 Optional < Question > questionDb = this.questionDao.findById(question.getSno());
-	        
+			if (questionDb.isPresent())
+			{
 	            Question questionUpdate = questionDb.get();
 	            questionUpdate.setQuestionvalue(question.getQuestionvalue());
 	            questionUpdate.setQuestiondomain(question.getQuestiondomain());
@@ -229,10 +233,11 @@ public class AdminServiceImpl implements IAdminService{
 	            questionUpdate.setOption4(question.getOption4());
 	            return questionUpdate;
 			}
-			
-			    
+			  throw new ResourceNotFoundException("Record not found with id : " + question.getSno());
 
-	
-	
-
+			}
 }
+
+	
+
+
