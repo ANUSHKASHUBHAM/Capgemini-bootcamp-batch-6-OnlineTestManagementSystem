@@ -1,5 +1,148 @@
 package com.capgemini.onlinetestmanagementsystem.controller;
 
-public class TestController {
+import java.math.BigInteger;
+import java.util.List;
+import javax.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.capgemini.onlinetestmanagementsystem.dto.TestDetails;
+import com.capgemini.onlinetestmanagementsystem.dto.TestDto;
+import com.capgemini.onlinetestmanagementsystem.entity.TestEntity;
+import com.capgemini.onlinetestmanagementsystem.service.ITestService;
+import com.capgemini.onlinetestmanagementsystem.util.Util;
+
+
+
+@RestController
+@RequestMapping("/tests")
+public class TestController
+{
+	
+	
+	  
+	  
+	 @Autowired
+	 private ITestService service;
+	 
+	 /*
+	  * This is a GetMethod(Http) is used to view the test.
+	  * Method 	  : findTestById
+	  * parameters: testId
+	  * Returns   : the information added in database
+	  * Author 	  : Muskan Ahuja
+	  * Date 	  : 26/09/2020
+	  */
+	 
+	 
+	 
+	 //Find Test By Id Test
+	 
+	 @GetMapping("/get/{id}")
+	  public ResponseEntity<TestDetails>findTestById(@PathVariable("id") BigInteger id)
+	  {
+		TestEntity test = service.findById(id);
+		TestDetails details = Util.convertToTestDetails(test);
+		ResponseEntity<TestDetails>response=new ResponseEntity<>(details, HttpStatus.OK);
+		System.out.println("This is detail"+details);
+		return response;
+		
+	  }
+	 
+	 //Fetch All Test
+	 
+	 @GetMapping
+	 @ResponseStatus(HttpStatus.OK)
+	  public List<TestDto>fetchAll()
+	  {
+	    List<TestEntity> tests=service.fetchAll();
+	    List<TestDto> allTests=Util.tests(tests);
+	    System.out.println(allTests);
+	    return allTests;
+	   }
+	 
+	 
+	 
+	 /*
+	  * This is a PostMethod(Http) is used to add the test.
+	  * Method 	  : addTest
+	  * parameters: testDto
+	  * Returns   : the added information of test
+	  * Author 	  : Anushka Bhatt
+	  * Date 	  : 26/09/2020
+	  */
+	 
+	 
+	//Add Test
+	 
+	 @PostMapping("/add")
+	  public ResponseEntity<TestEntity>addTest(@RequestBody @Valid TestDto testDto)
+	  {
+	    TestEntity test = Util.convertFromDto(testDto);
+	    test=service.addTest(test);
+	    ResponseEntity<TestEntity>response=new ResponseEntity<>(test, HttpStatus.OK);
+	    System.out.println(testDto);
+	    return response;
+	      
+	   }
+	 
+	 /*
+	  * This is a GettMethod(Http) is used to delete the test.
+	  * Method 	  : deleteTest
+	  * parameters: testId
+	  * Author 	  : Muskan Ahuja
+	  * Date 	  : 26/09/2020
+	  */
+	 
+	 
+	 
+	 //Delete Test
+	 
+	 @GetMapping("/remove/{id}")
+	  public ResponseEntity<Boolean> deleteTest(@PathVariable("id") BigInteger testId)
+	  {
+		TestEntity result = service.deleteTest(testId);
+	 
+	    ResponseEntity<Boolean> response = new ResponseEntity<>(true, HttpStatus.OK);
+		return response;
+	   }
+	
+	 /*
+	  * This is a PutMethod(Http) is used to update the test.
+	  * Method 	  : updateTest
+	  * parameters: testId,testDto
+	  * Returns   : the updated test details
+	  * Author 	  : Anushka Bhatt
+	  * Date 	  : 26/09/2020
+	  */
+	 
+	 
+	 
+	 
+	 //Update Test
+
+	 @PutMapping("/update/{id}")
+	  public ResponseEntity<TestEntity> updateTest(@PathVariable("id") BigInteger testId, @RequestBody @Valid TestDto testDto) 
+	  {
+	    TestEntity test = Util.convertFromDto(testDto);
+		test.setTestId(testId);
+		test = service.updateTest(testId, test);
+		ResponseEntity<TestEntity> response = new ResponseEntity<>(test, HttpStatus.OK);
+		return response;
+		}
+	 
+	
+		
+		
+		
+	 
 }

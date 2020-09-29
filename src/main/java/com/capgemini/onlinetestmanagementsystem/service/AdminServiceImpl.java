@@ -4,6 +4,7 @@ package com.capgemini.onlinetestmanagementsystem.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.capgemini.onlinetestmanagementsystem.dao.IAdminDao;
 import com.capgemini.onlinetestmanagementsystem.entity.Admin;
@@ -11,6 +12,7 @@ import com.capgemini.onlinetestmanagementsystem.exception.AdminNotFoundException
 
 
 @Service
+@Transactional
 public class AdminServiceImpl implements IAdminService{
 	
 	
