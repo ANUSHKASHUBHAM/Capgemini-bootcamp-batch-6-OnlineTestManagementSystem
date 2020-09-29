@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import java.util.Optional;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,7 +22,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.capgemini.onlinetestmanagementsystem.entity.Admin;
+
 import com.capgemini.onlinetestmanagementsystem.entity.TestEntity;
+
+import com.capgemini.onlinetestmanagementsystem.entity.Question;
+import com.capgemini.onlinetestmanagementsystem.exception.ResourceNotFoundException;
+
 import com.capgemini.onlinetestmanagementsystem.service.IAdminService;
 
 
@@ -79,6 +87,7 @@ public class AdminController {
 		adminService.deleteAdmin(adminId);
 		return "Admin with id " + adminId + " Removed Successfully";
 	}
+
 	
 	
 	
@@ -105,118 +114,115 @@ public class AdminController {
 	  * Author 	  : Muskan Ahuja
 	  * Date 	  : 26/09/2020
 	  */
-	 
-	 
-	 
-	 //Find Test By Id Test
+	@PostMapping("/add")
+	public ResponseEntity<TestEntity>addTest(@RequestBody @Valid TestEntity testEntity )
+	{
+		TestEntity test1=convertFromTestEntity(testEntity);
+		TestEntity myTest=adminService.addTest(test1);
+		 
+		  System.out.println(myTest);
+		ResponseEntity<TestEntity>response=new ResponseEntity<TestEntity>(myTest, HttpStatus.OK);
+		return response;
+	}
+	
+	@PutMapping("/update/{id}")
+	public ResponseEntity<TestEntity> updateTest(@PathVariable("id") BigInteger TestId, @RequestBody @Valid TestEntity testEntity) {
+		TestEntity test1=convertFromTestEntity(testEntity);
+		test1.setTestId(TestId);
+		testEntity = adminService.updateTest(TestId, test1);
+		 
+		ResponseEntity<TestEntity> response = new ResponseEntity<>(testEntity, HttpStatus.OK);
+		return response;
+	}
+	
+	 @GetMapping("/remove/{id}")
+		public ResponseEntity<Boolean> deleteTest(@PathVariable("id") BigInteger testId) {
+			TestEntity result = adminService.deleteTest(testId);
+			ResponseEntity<Boolean> response = new ResponseEntity<>(true, HttpStatus.OK);
+			return response;
+		}
+
 	 
 	 @GetMapping("/get/{id}")
-	  public ResponseEntity<TestEntity>findTestById(@PathVariable("id") BigInteger id)
-	  {
-		return new ResponseEntity<TestEntity>(adminService.findById(id),HttpStatus.OK);
-		
-	  }
-
-	 
-	 //Fetch All Test
-	 
-	 
-	 
+	 public ResponseEntity<TestEntity>getTest(@PathVariable("id") BigInteger testId){
+			TestEntity testEntity = adminService.findById(testId);
+			TestEntity myTest=convertFromTestEntity(testEntity);
+			ResponseEntity<TestEntity>response=new ResponseEntity<>(myTest, HttpStatus.OK);
+			return response;
+			
+		  }
 	 @GetMapping
 	 @ResponseStatus(HttpStatus.OK)
-	 public List<TestEntity>fetchAll()
-	 
-	 {
+	 	public List<TestEntity>fetchAll(){
 		 List<TestEntity> testEntity=adminService.fetchAll();
-		 
-		return testEntity;
-		 
+		 System.out.println(testEntity);
+		 return testEntity;
 	 }
-	 
-	 
-	 
-	 /*
-	  * This is a PostMethod(Http) is used to add the test.
-	  * Method 	  : addTest
-	  * parameters: testDto
-	  * Returns   : the added information of test
-	  * Author 	  : Anushka Bhatt
-	  * Date 	  : 26/09/2020
-	  */
-	 
-	 
-	//Add Test
-	 
-	 @PostMapping("/add")
-	  public ResponseEntity<String>addTest(@RequestBody @Valid TestEntity testEntity)
-	  {
-	    TestEntity test = adminService.addTest(testEntity);
-	    if (test == null) {
-	   	  return new ResponseEntity<String>("Test not added", new HttpHeaders(), HttpStatus.OK);
-	   	  } 
-	    else 
-	    { 
-	    	return new ResponseEntity<String>("Test added successfully", new HttpHeaders(), HttpStatus.OK);
-	    }
-	    }
-	    
-	    
-	    
-	 /*
-	  * This is a GettMethod(Http) is used to delete the test.
-	  * Method 	  : deleteTest
-	  * parameters: testId
-	  * Author 	  : Muskan Ahuja
-	  * Date 	  : 26/09/2020
-	  */
-	 
-	 
-	 
-	 //Delete Test
-	 
-	 @GetMapping("/remove/{id}")
-	  public ResponseEntity<String> deleteTest(@PathVariable("id") BigInteger testId)
-	  {
-		TestEntity result = adminService.deleteTest(testId);
-	 
-		if (result == null) {
-			return new ResponseEntity<String>("Delete operation is unsuccessful", new HttpHeaders(), HttpStatus.OK);
-
-		} else {
-			return new ResponseEntity<String>("Delete operation is successful", new HttpHeaders(), HttpStatus.OK);
+	 public TestEntity convertFromTestEntity(TestEntity testEntity) {
+			TestEntity test=new TestEntity();
+			 test.setTestId(testEntity.getTestId());
+			 test.setTestTitle(testEntity.getTestTitle());
+			 test.setTestDuration(testEntity.getTestDuration());
+			 test.setTestTotalMarks(testEntity.getTestTotalMarks());
+			 test.setTestMarksScored(testEntity.getTestMarksScored());
+			 test.setStartTime(testEntity.getStartTime());
+			 test.setEndTime(testEntity.getEndTime());
+			 
+			return  test;
 		}
-	   }
+	 	
+	 	 
 	 
 	
-	 /*
-	  * This is a PutMethod(Http) is used to update the test.
-	  * Method 	  : updateTest
-	  * parameters: testId,testDto
-	  * Returns   : the updated test details
-	  * Author 	  : Anushka Bhatt
-	  * Date 	  : 26/09/2020
-	  */
+	
 	 
 	 
 	 
-	 
-	 //Update Test
+	
+	
+	@GetMapping("/question")
+	public List<Question> getAllQuestions() {
+		return adminService.getAllQuestion();
+	}
 
-	 @PutMapping("/update/{id}")
-	  public ResponseEntity<String> updateTest(@PathVariable("id") BigInteger testId, TestEntity test) 
-	  {
-	    TestEntity test1 =  adminService.updateTest(testId, test);
-	    if (test1 == null) {
-		   	  return new ResponseEntity<String>("Test not added", new HttpHeaders(), HttpStatus.OK);
-		   	  } 
-		    else 
-		    { 
-		    	return new ResponseEntity<String>("Test added successfully", new HttpHeaders(), HttpStatus.OK);
-		    }
-		}
+	@GetMapping("/question/{sno}")
+	public ResponseEntity<Question> getQuestionById(@PathVariable(value = "sno") int sno)
+			throws ResourceNotFoundException {
+		Question question = adminService.getQuestionBySno(sno)
+				.orElseThrow(() -> new ResourceNotFoundException("Question not found for this sno :: " + sno));
+		return ResponseEntity.ok().body(question);
+	}
+
+	@PostMapping(path="/question",consumes="application/json",produces="application/json")
+	public Question createQuestion(@RequestBody Question question) {
+		return adminService.save(question);
+	}
+
+	@PutMapping("/question/{sno}")
+	public ResponseEntity<Question> updateQuestion(@PathVariable(value = "sno") int sno,
+			@RequestBody Question questionDetails) throws ResourceNotFoundException {
+		Question question = adminService.getQuestionBySno(sno)
+				.orElseThrow(() -> new ResourceNotFoundException("Question not found for this sno :: " + sno));
+
+		question.setQuestionvalue(questionDetails.getQuestionvalue());
+		question.setQuestionmarks(questionDetails.getQuestionmarks());
+		question.setQuestiondomain(questionDetails.getQuestiondomain());
+		question.setCorrectoption(questionDetails.getCorrectoption());
+		question.setOption1(questionDetails.getOption1());
+		question.setOption2(questionDetails.getOption2());
+		question.setOption3(questionDetails.getOption3());
+		question.setOption4(questionDetails.getOption4());
+		final Question updatedQuestion = adminService.save(question);
+		return ResponseEntity.ok(updatedQuestion);
+	}
+
+	@DeleteMapping("/question/{sno}")
+	public Optional<Question> deleteQuestion(@PathVariable(value = "sno") int sno) throws ResourceNotFoundException
+	{
+		return adminService.deleteQuestion(sno);
+	}
 	
-		
-	
-	
+
+
 
 }

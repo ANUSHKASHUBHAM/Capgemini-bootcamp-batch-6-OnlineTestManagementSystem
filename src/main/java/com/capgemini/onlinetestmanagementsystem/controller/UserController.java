@@ -19,8 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.capgemini.onlinetestmanagementsystem.dto.UserDetails;
-import com.capgemini.onlinetestmanagementsystem.dto.UserDto;
+
 import com.capgemini.onlinetestmanagementsystem.entity.User;
 import com.capgemini.onlinetestmanagementsystem.service.IUserService;
 
@@ -34,28 +33,21 @@ public class UserController {
 	@Autowired
 	private IUserService service;
 	@PostMapping("/add")
-	public ResponseEntity<User>addUser(@RequestBody @Valid UserDto userDto )
+	public ResponseEntity<User>addUser(@RequestBody @Valid User user )
 	{
-		User user=convertFromDto(userDto);
-		User myUser=service.addUser(user);
+		User user1=convertFromUser(user);
+		User myUser=service.addUser(user1);
 		  Log.info("User Added ");
 		  System.out.println(myUser);
 		ResponseEntity<User>response=new ResponseEntity<User>(myUser, HttpStatus.OK);
 		return response;
 	}
-	public User convertFromDto(UserDto dto) {
-		User user=new User();
-		user.setUserId(dto.getUserId());
-		user.setUserName(dto.getUserName());
-		user.setUserPassword(dto.getUserPassword());
-		user.setAdmin(dto.isAdmin());
-		return user;
-	}
+	
 	@PutMapping("/update/{id}")
-	public ResponseEntity<User> updateUser(@PathVariable("id") Long userId, @RequestBody @Valid UserDto userDto) {
-		User user = convertFromDto(userDto);
-		user.setUserId(userId);
-		user = service.updateUser(userId, user);
+	public ResponseEntity<User> updateUser(@PathVariable("id") Long userId, @RequestBody @Valid User user) {
+		User user1 = convertFromUser(user);
+		user1.setUserId(userId);
+		user = service.updateUser(userId, user1);
 		  Log.info("User updated ");
 		ResponseEntity<User> response = new ResponseEntity<>(user, HttpStatus.OK);
 		return response;
@@ -71,10 +63,10 @@ public class UserController {
 
 	 
 	 @GetMapping("/get/{id}")
-	 public ResponseEntity<UserDetails>getTest(@PathVariable("id")Long userId){
+	 public ResponseEntity<User>getTest(@PathVariable("id")Long userId){
 			User user = service.findById(userId);
-			UserDetails details=convertToUserDetails(user);
-			ResponseEntity<UserDetails>response=new ResponseEntity<>(details, HttpStatus.OK);
+			User myUser=convertFromUser(user);
+			ResponseEntity<User>response=new ResponseEntity<>(myUser, HttpStatus.OK);
 			return response;
 			
 		  }
@@ -86,18 +78,16 @@ public class UserController {
 		 System.out.println(user);
 		 return user;
 	 }
+	 public User convertFromUser(User user) {
+			User user2=new User();
+			user2.setUserId(user.getUserId());
+			user2.setUserName(user.getUserName());
+			user2.setUserTest(user.getUserTest());
+			user2.setUserPassword(user.getUserPassword());
+			user2.setAdmin(user.isAdmin());
+			return user2;
+		}
 	 	
-	 UserDetails convertToUserDetails(User user)
-	 {
-		 	UserDetails details=new UserDetails();
-		 	details.setUserId(user.getUserId());
-		 	details.setUserName(user.getUserName());
-			details.setUserPassword(user.getUserPassword());
-			details.setUserTest(user.getUserTest());
-			details.setAdmin(user.isAdmin());
-			
-		 	return details;
-	 }
-	 
+	 	 
 	 
 }
