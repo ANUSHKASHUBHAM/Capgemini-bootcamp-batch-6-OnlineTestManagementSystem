@@ -9,7 +9,6 @@ import java.util.Optional;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,8 +25,6 @@ import com.capgemini.onlinetestmanagementsystem.entity.Admin;
 import com.capgemini.onlinetestmanagementsystem.entity.TestEntity;
 
 import com.capgemini.onlinetestmanagementsystem.entity.Question;
-import com.capgemini.onlinetestmanagementsystem.exception.ResourceNotFoundException;
-
 import com.capgemini.onlinetestmanagementsystem.service.IAdminService;
 
 
@@ -107,11 +104,11 @@ public class AdminController {
 	
 	 
 	 /*
-	  * This is a GetMethod(Http) is used to view the test.
-	  * Method 	  : findTestById
-	  * parameters: testId
+	  * This is a postMethod(Http) is used to add the test.
+	  * Method 	  : addTest
+	  * parameters: testEntity
 	  * Returns   : the information added in database
-	  * Author 	  : Muskan Ahuja
+	  * Author 	  : Anushka bhatt
 	  * Date 	  : 26/09/2020
 	  */
 	@PostMapping("/add")
