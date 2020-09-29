@@ -14,8 +14,16 @@ public interface IAdminService {
 	Admin getAdmin(String adminId);
 	boolean deleteAdmin(String adminId);
 
-	public List<Question> getQuestion();
+	public TestEntity addTest(TestEntity test);
+	public TestEntity updateTest(BigInteger testId, TestEntity test);
+	public TestEntity deleteTest(BigInteger testId);
+	public List<TestEntity> fetchAll();
+	public TestEntity findById(BigInteger testId);
+	public Question createQuestion(Question question);
+    public List<Question> getAllQuestion();
+    public Optional<Question> deleteQuestion(int Sno);
 	public Question save(Question question);
+<<<<<<< HEAD
 	public Optional<Question> getQuestionBySno(int sno);
 	public Optional<Question> deleteQuestion(int sno) throws ResourceNotFoundException;
 	
@@ -30,6 +38,10 @@ public interface IAdminService {
 
 	TestEntity findById(BigInteger testId);
 
+=======
+	public Optional<Question> getQuestionBySno(int Sno);
+	
+>>>>>>> branch 'master' of https://github.com/ANUSHKASHUBHAM/Capgemini-bootcamp-batch-6-OnlineTestManagementSystem.git
 	
 	
 	
