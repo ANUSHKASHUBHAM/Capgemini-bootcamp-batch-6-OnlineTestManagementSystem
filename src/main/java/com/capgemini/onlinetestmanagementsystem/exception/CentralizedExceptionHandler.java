@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 
 
@@ -51,6 +52,15 @@ public class CentralizedExceptionHandler {
 	      String msg=ex.getMessage();
 	      ResponseEntity<String>response=new ResponseEntity<>(msg,HttpStatus.INTERNAL_SERVER_ERROR);
 	      return response;
+	    }
+	    
+	    @ResponseStatus(code=HttpStatus.NOT_FOUND, reason="Admin Not Found")
+	    @ExceptionHandler(AdminNotFoundException.class)
+	    public ResponseEntity<String>handleAdminNotFoundException(AdminNotFoundException ex){
+	        Log.error("Admin not Found exception",ex);
+	        String msg=ex.getMessage();
+	        ResponseEntity<String>response=new ResponseEntity<>(msg,HttpStatus.NOT_FOUND);
+	        return response;
 	    }
 	    
 	    
