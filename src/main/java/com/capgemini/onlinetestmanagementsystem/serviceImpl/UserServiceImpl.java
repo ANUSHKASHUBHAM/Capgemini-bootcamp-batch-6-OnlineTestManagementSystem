@@ -1,4 +1,4 @@
-package com.capgemini.onlinetestmanagementsystem.service;
+package com.capgemini.onlinetestmanagementsystem.serviceImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.capgemini.onlinetestmanagementsystem.dao.IUserDao;
 import com.capgemini.onlinetestmanagementsystem.entity.User;
 import com.capgemini.onlinetestmanagementsystem.exception.UserNotFoundException;
+import com.capgemini.onlinetestmanagementsystem.service.IUserService;
 
 
 

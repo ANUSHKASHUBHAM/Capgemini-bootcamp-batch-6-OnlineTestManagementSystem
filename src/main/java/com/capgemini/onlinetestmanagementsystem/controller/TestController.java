@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.capgemini.onlinetestmanagementsystem.dto.TestDetails;
 import com.capgemini.onlinetestmanagementsystem.dto.TestDto;
 import com.capgemini.onlinetestmanagementsystem.entity.TestEntity;
+import com.capgemini.onlinetestmanagementsystem.service.IAdminService;
 import com.capgemini.onlinetestmanagementsystem.service.ITestService;
 import com.capgemini.onlinetestmanagementsystem.util.Util;
 
@@ -32,7 +34,7 @@ public class TestController
 	  
 	  
 	 @Autowired
-	 private ITestService service;
+	 private IAdminService service;
 	 
 	 /*
 	  * This is a GetMethod(Http) is used to view the test.
@@ -85,16 +87,20 @@ public class TestController
 	//Add Test
 	 
 	 @PostMapping("/add")
-	  public ResponseEntity<TestEntity>addTest(@RequestBody @Valid TestDto testDto)
+	  public ResponseEntity<String>addTest(@RequestBody @Valid TestEntity testEntity)
 	  {
-	    TestEntity test = Util.convertFromDto(testDto);
-	    test=service.addTest(test);
-	    ResponseEntity<TestEntity>response=new ResponseEntity<>(test, HttpStatus.OK);
-	    System.out.println(testDto);
-	    return response;
-	      
-	   }
-	 
+	    TestEntity test = service.addTest(testEntity);
+	    if (test == null) {
+	   	  return new ResponseEntity<String>("Test not added", new HttpHeaders(), HttpStatus.OK);
+	   	  } 
+	    else 
+	    { 
+	    	return new ResponseEntity<String>("Test added successfully", new HttpHeaders(), HttpStatus.OK);
+	    }
+	    }
+	    
+	    
+	    
 	 /*
 	  * This is a GettMethod(Http) is used to delete the test.
 	  * Method 	  : deleteTest
@@ -131,11 +137,9 @@ public class TestController
 	 //Update Test
 
 	 @PutMapping("/update/{id}")
-	  public ResponseEntity<TestEntity> updateTest(@PathVariable("id") BigInteger testId, @RequestBody @Valid TestDto testDto) 
+	  public ResponseEntity<String> updateTest(@PathVariable("id") BigInteger testId) 
 	  {
-	    TestEntity test = Util.convertFromDto(testDto);
-		test.setTestId(testId);
-		test = service.updateTest(testId, test);
+	    TestEntity test =  service.updateTest(testId, test);
 		ResponseEntity<TestEntity> response = new ResponseEntity<>(test, HttpStatus.OK);
 		return response;
 		}

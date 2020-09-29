@@ -1,3 +1,4 @@
+
 package com.capgemini.onlinetestmanagementsystem.entity;
 
 import java.math.*;
@@ -11,8 +12,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-
 @Entity
 @Table(name = "tests")
 public class TestEntity{
