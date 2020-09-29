@@ -200,17 +200,35 @@ public class AdminServiceImpl implements IAdminService{
 					return question;
 				}
 			@Override
-			public Optional<Question> getQuestionBySno(int serialNo) {
-				return questionDao.findById(serialNo);
-				
-			}
+			public Question getQuestionBySno(int Sno)
+			{
+			 Optional < Question > questionDb = this.questionDao.findById(Sno);
 
+	         return questionDb.get();
+	        }
 			@Override
 			public Question save(Question question)
 			{
 				return questionDao.save(question);
 			}
-			
+
+
+			@Override
+			public Question updateQuestion(Question question)
+			{
+				 Optional < Question > questionDb = this.questionDao.findById(question.getSno());
+	        
+	            Question questionUpdate = questionDb.get();
+	            questionUpdate.setQuestionvalue(question.getQuestionvalue());
+	            questionUpdate.setQuestiondomain(question.getQuestiondomain());
+	            questionUpdate.setQuestiondomain(question.getQuestiondomain());
+	            questionUpdate.setCorrectoption(question.getCorrectoption());
+	            questionUpdate.setOption1(question.getOption1());
+	            questionUpdate.setOption2(question.getOption2());
+	            questionUpdate.setOption3(question.getOption3());
+	            questionUpdate.setOption4(question.getOption4());
+	            return questionUpdate;
+			}
 			
 			    
 
