@@ -186,11 +186,9 @@ public class AdminController {
 	}
 
 	@GetMapping("/question/{sno}")
-	public ResponseEntity<Question> getQuestionById(@PathVariable(value = "sno") int sno)
-			throws ResourceNotFoundException {
-		Question question = adminService.getQuestionBySno(sno)
-				.orElseThrow(() -> new ResourceNotFoundException("Question not found for this sno :: " + sno));
-		return ResponseEntity.ok().body(question);
+	public ResponseEntity<Question> getQuestionById(@PathVariable int Sno)
+	{
+		return ResponseEntity.ok().body(adminService.getQuestionBySno(Sno));
 	}
 
 	@PostMapping(path="/question",consumes="application/json",produces="application/json")
@@ -198,26 +196,17 @@ public class AdminController {
 		return adminService.save(question);
 	}
 
+
 	@PutMapping("/question/{sno}")
-	public ResponseEntity<Question> updateQuestion(@PathVariable(value = "sno") int sno,
-			@RequestBody Question questionDetails) throws ResourceNotFoundException {
-		Question question = adminService.getQuestionBySno(sno)
-				.orElseThrow(() -> new ResourceNotFoundException("Question not found for this sno :: " + sno));
-
-		question.setQuestionvalue(questionDetails.getQuestionvalue());
-		question.setQuestionmarks(questionDetails.getQuestionmarks());
-		question.setQuestiondomain(questionDetails.getQuestiondomain());
-		question.setCorrectoption(questionDetails.getCorrectoption());
-		question.setOption1(questionDetails.getOption1());
-		question.setOption2(questionDetails.getOption2());
-		question.setOption3(questionDetails.getOption3());
-		question.setOption4(questionDetails.getOption4());
-		final Question updatedQuestion = adminService.save(question);
-		return ResponseEntity.ok(updatedQuestion);
-	}
-
+	public ResponseEntity<Question> updateQuestion(@PathVariable(value = "Sno") int Sno,
+			@RequestBody Question question)
+	{
+        question.setSno(Sno);
+        return ResponseEntity.ok().body(this.adminService.updateQuestion(question));
+    }
+	
 	@DeleteMapping("/question/{sno}")
-	public Optional<Question> deleteQuestion(@PathVariable(value = "sno") int sno) throws ResourceNotFoundException
+	public Optional<Question> deleteQuestion(@PathVariable int sno) 
 	{
 		return adminService.deleteQuestion(sno);
 	}

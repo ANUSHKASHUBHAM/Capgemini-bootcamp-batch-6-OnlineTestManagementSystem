@@ -22,7 +22,7 @@ public interface IAdminService {
     public List<Question> getAllQuestion();
     public Optional<Question> deleteQuestion(int Sno);
 	public Question save(Question question);
-
-	public Optional<Question> getQuestionBySno(int sno);
+    public Question getQuestionBySno(int Sno);
+    public Question updateQuestion(Question question);
 	
 }
