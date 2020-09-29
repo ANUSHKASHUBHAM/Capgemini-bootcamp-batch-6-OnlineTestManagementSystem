@@ -20,7 +20,7 @@ public class CentralizedExceptionHandler {
 	 
 	  
 	  @ExceptionHandler(UserNotAddedException.class)
-	    public ResponseEntity<String>handleUserNotAdded(TestNotFoundException ex){
+	    public ResponseEntity<String>handleUserNotAdded(UserNotAddedException ex){
 	        Log.error("user not added exception",ex);
 	        String msg=ex.getMessage();
 	        ResponseEntity<String>response=new ResponseEntity<>(msg,HttpStatus.NOT_FOUND);
@@ -63,6 +63,21 @@ public class CentralizedExceptionHandler {
 	        return response;
 	    }
 	    
+	    @ExceptionHandler(TestNotFoundException.class)
+	    public ResponseEntity<String>handleTestNotFoundException(TestNotFoundException ex){
+	        Log.error("Test not Found exception",ex);
+	        String msg=ex.getMessage();
+	        ResponseEntity<String>response=new ResponseEntity<>(msg,HttpStatus.NOT_FOUND);
+	        return response;
+	    }
+	    
+	    @ExceptionHandler(TestNotAddedException.class)
+	    public ResponseEntity<String>handleTestNotAdded(TestNotAddedException ex){
+	        Log.error("Test not added exception",ex);
+	        String msg=ex.getMessage();
+	        ResponseEntity<String>response=new ResponseEntity<>(msg,HttpStatus.NOT_FOUND);
+	        return response;
+	    }
 	    
 	 
 }
