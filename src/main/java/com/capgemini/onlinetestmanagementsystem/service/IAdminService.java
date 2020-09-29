@@ -18,6 +18,8 @@ public interface IAdminService {
 	public Question save(Question question);
 	public Optional<Question> getQuestionBySno(int sno);
 	public Optional<Question> deleteQuestion(int sno) throws ResourceNotFoundException;
+	
+	
 	TestEntity addTest(TestEntity test);
 
 	TestEntity updateTest(BigInteger testId, TestEntity test);

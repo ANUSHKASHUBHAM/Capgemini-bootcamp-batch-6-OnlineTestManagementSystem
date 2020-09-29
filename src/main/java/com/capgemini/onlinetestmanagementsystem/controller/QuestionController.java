@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.capgemini.onlinetestmanagementsystem.entity.Question;
 import com.capgemini.onlinetestmanagementsystem.exception.ResourceNotFoundException;
-import com.capgemini.onlinetestmanagementsystem.service.IQuestionService;
+
 
 public class QuestionController {
 	
