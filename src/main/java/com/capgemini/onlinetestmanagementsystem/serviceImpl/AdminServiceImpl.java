@@ -95,42 +95,6 @@ public class AdminServiceImpl implements IAdminService{
 		return true;
 	}
 	
-	@Autowired
-	IQuestionDao questionDao;
-
-		@Override
-		public List<Question> getQuestion() {
-			List<Question> question = new ArrayList<Question>();  
-			questionDao.findAll().forEach(question1 -> question.add(question1));  
-			return question;  
-			
-		}
-
-		@Override
-		public Question save(Question question) {
-			return questionDao.save(question); 
-		}
-
-		@Override
-		public Optional<Question> getQuestionBySno(int sno) {
-			return questionDao.findById(sno);
-			
-		}
-
-		@Override
-		public Optional<Question> deleteQuestion(int sno) throws ResourceNotFoundException{
-		Optional<Question> question =questionDao.findById(sno);
-		if(question!=null)
-		{
-			questionDao.deleteById(sno);
-			return question;
-			
-		}else
-		{
-			throw new ResourceNotFoundException("No question exists of thid Sno");
-
-	}
-	}
 		 @Autowired
 			private ITestDao testDao;
 			
@@ -213,7 +177,43 @@ public class AdminServiceImpl implements IAdminService{
 				List<TestEntity> tests = testDao.findAll();
 				return tests;
 			}
-	
+			
+
+			@Autowired
+			IQuestionDao questionDao;
+			@Override
+			public Question createQuestion(Question question)
+			{
+				return questionDao.save(question);
+			}
+
+			@Override
+			public List<Question> getAllQuestion() 
+			{
+				return questionDao.findAll();
+			}
+
+			@Override
+			public Optional<Question> deleteQuestion(int Sno) {
+				Optional<Question> question =questionDao.findById(Sno);
+				questionDao.deleteById(Sno);
+					return question;
+				}
+			@Override
+			public Optional<Question> getQuestionBySno(int serialNo) {
+				return questionDao.findById(serialNo);
+				
+			}
+
+			@Override
+			public Question save(Question question)
+			{
+				return questionDao.save(question);
+			}
+			
+			
+			    
+
 	
 	
 
